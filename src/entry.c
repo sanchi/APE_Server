@@ -181,7 +181,9 @@ int main(int argc, char **argv)
 	};
 	
 	serverfd = servers_init(g_ape);
-	
+	if (!serverfd)
+	  return -1;
+
 	ape_log(APE_INFO, __FILE__, __LINE__, g_ape, 
 		"APE starting up - pid : %i", getpid());
 	

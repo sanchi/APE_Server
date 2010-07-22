@@ -39,7 +39,7 @@ build-stamp: configure-stamp
 # Add here commands to compile the package.
 	# $(MAKE) -C modules
 	# $(MAKE)
-	./build
+	./build.sh
 
 	touch build-stamp
 

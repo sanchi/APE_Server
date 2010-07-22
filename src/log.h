@@ -26,12 +26,31 @@
 
 typedef enum {
 	APE_DEBUG 	= 0x01,
-	APE_WARN 	= 0x02,
-	APE_ERR 	= 0x04,
-	APE_INFO	= 0x08
+	APE_WARN        = 0x02,
+	APE_ERR         = 0x04,
+	APE_INFO        = 0x08
 } ape_log_lvl_t;
 
 void ape_log_init(acetables *g_ape);
 void ape_log(ape_log_lvl_t lvl, const char *file, unsigned long int line, acetables *g_ape, char *buf, ...);
+
+extern acetables *log_g_ape;
+
+#define _ape_log(lvl, fmt, args...)	\
+  do {									\
+    ape_log(lvl, __FILE__, __LINE__, log_g_ape, fmt, ##args);		\
+  } while(0)								\
+
+#define dbg(fmt, args...)			\
+  _ape_log(APE_DEBUG, fmt, ##args)
+
+#define info(fmt, args...)			\
+  _ape_log(APE_DEBUG, fmt, ##args)
+
+#define warn(fmt, args...)			\
+  _ape_log(APE_DEBUG, fmt, ##args)
+
+#define err(fmt, args...)			\
+  _ape_log(APE_DEBUG, fmt, ##args)
 
 #endif

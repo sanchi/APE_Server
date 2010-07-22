@@ -33,6 +33,9 @@ ace_plugins *loadplugin(char *file)
 	//ace_plugin_infos *infos;
 	ace_plugins *plug;
 	
+
+	dbg("APE loading module %s", file);
+
 	hwnd = dlopen(file, RTLD_LAZY);
 	
 	if (!hwnd) {

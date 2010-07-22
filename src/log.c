@@ -30,6 +30,7 @@
 #include "main.h"
 #include "config.h"
 
+acetables *log_g_ape;
 
 void ape_log_init(acetables *g_ape)
 {
@@ -43,6 +44,8 @@ void ape_log_init(acetables *g_ape)
 			g_ape->logs.fd = STDERR_FILENO;
 		}
 	}
+
+	log_g_ape = g_ape;
 }
 
 void ape_log(ape_log_lvl_t lvl, const char *file, unsigned long int line, acetables *g_ape, char *buf, ...)
@@ -74,7 +77,6 @@ void ape_log(ape_log_lvl_t lvl, const char *file, unsigned long int line, acetab
 		}
 		write(g_ape->logs.fd, buff, len);
 		write(g_ape->logs.fd, "\n", 1);
-		
 		free(buff);
 	}
 }

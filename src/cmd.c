@@ -26,6 +26,7 @@
 #include "proxy.h"
 #include "raw.h"
 #include "transports.h"
+#include "log.h"
 
 void do_register(acetables *g_ape)
 {
@@ -45,6 +46,8 @@ void register_cmd(const char *cmd, unsigned int (*func)(callbackp *), unsigned i
 {
 	callback *new_cmd, *old_cmd;
 	
+	info("registering cmd '%s'", cmd);
+
 	new_cmd = (callback *) xmalloc(sizeof(*new_cmd));
 
 	new_cmd->func = func;
@@ -356,7 +359,6 @@ unsigned int checkcmd(clientget *cget, transport_t transport, subuser **iuser, a
 		send_raw_inline(cget->client, transport, newraw, g_ape);
 	} else {
 		for (ijson = ijson->jchild.child; ijson != NULL; ijson = ijson->next) {
-			
 			if (pc.guser != NULL && pc.guser->istmp) { /* if "CONNECT" was delayed, push other cmd to the queue and stop execution */
 				pc.guser->cmdqueue = json_item_copy(ijson, NULL);
 				break;

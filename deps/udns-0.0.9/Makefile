@@ -122,6 +122,8 @@ subdist:
 	cp -p $(DIST) $(TARGET)/
 
 clean:
+	rm -f $(UTILS)
+	rm -f $(LIB)
 	rm -f $(OBJS)
 	rm -f $(SOBJS)
 	rm -f $(UOBJS)

@@ -10,11 +10,18 @@ CFLAGS = -Wall -O2 -minline-all-stringops -rdynamic -I ./deps/udns-0.0.9/
 LFLAGS=-ldl -lm -lpthread
 CC=gcc -D_GNU_SOURCE
 RM=rm -f
+LIBUDNS_DIR=./deps/udns-0.0.9
+LIBUDNS_LIBNAME=libudns.a
+LIBUDNS=$(LIBUDNS_DIR)/$(LIBUDNS_LIBNAME)
+
 
 all: aped
-	
-aped: $(SRC)
-	$(CC) $(CFLAGS) $(SRC) -o $(EXEC) $(LFLAGS) ./deps/udns-0.0.9/libudns.a -I ./deps/udns-0.0.9/
+
+$(LIBUDNS):
+	$(MAKE) -C $(LIBUDNS_DIR) $(LIBUDNS_LIBNAME)
+
+aped: $(SRC) $(LIBUDNS) Makefile
+	$(CC) $(CFLAGS) $(SRC) -o $(EXEC) $(LFLAGS) $(LIBUDNS) -I  $(LIBUDNS_DIR)
 install: 
 	install -d $(bindir)
 	install -m 755 $(EXEC) $(bindir)
@@ -24,3 +31,4 @@ uninstall:
 
 clean:
 	$(RM) $(EXEC)
+	$(MAKE) -C $(LIBUDNS_DIR) clean

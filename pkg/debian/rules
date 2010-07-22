@@ -1,0 +1,123 @@
+#!/usr/bin/make -f
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+#
+# $Id: rules,v 1.7 2007/12/20 14:21:19 paka Exp $
+#
+# History:
+# --------
+#  2009-08-27  stolen from SER and adapted for APED (stefan)
+#  2010-07-22  adapted to aped 1.0+, updated config dir 
+#              /etc/aped/ -> /etc/ape/     (stefan)
+#
+# debianization was sponsored by TelTech Systems Inc.
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+# This is the debhelper compatibility version to use.
+# export DH_COMPAT=4
+#  -- already set in compat
+#  force no striping (always include debug symbols for now)
+export DEB_BUILD_OPTIONS:="$(DEB_BUILD_OPTIONS) nostrip"
+
+
+
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+# Add here commands to configure the package.
+
+	touch configure-stamp
+
+build: build-stamp
+
+build-stamp: configure-stamp 
+	dh_testdir
+
+# Add here commands to compile the package.
+	$(MAKE) -C modules
+	$(MAKE)
+
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+
+# Add here commands to clean up after the build process.
+
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+# Add here commands to install the package into debian/aped
+
+        # should actually be made by make install...oh well...
+	mkdir -p $(CURDIR)/debian/aped/usr/sbin
+	mkdir -p $(CURDIR)/debian/aped/etc/ape
+	mkdir -p $(CURDIR)/debian/aped/etc/ape/modules
+	mkdir -p $(CURDIR)/debian/aped/usr/lib/ape
+	install bin/aped $(CURDIR)/debian/aped/usr/sbin
+	install modules/lib/*.so $(CURDIR)/debian/aped/usr/lib/ape
+	install bin/*.conf $(CURDIR)/debian/aped/etc/ape
+	install modules/conf/*.conf $(CURDIR)/debian/aped/etc/ape/modules
+	install -d scripts $(CURDIR)/debian/aped/usr/lib/ape/scripts
+
+# This single target is used to build all the packages, all at once, or
+# one at a time. So keep in mind: any options passed to commands here will
+# affect _all_ packages. Anything you want to only affect one package
+# should be put in another target, such as the install target.
+binary-common: 
+	dh_testdir
+	dh_testroot
+	dh_installdebconf	
+	dh_installdocs doc/*
+	dh_installexamples
+	dh_installmenu
+#	dh_installlogrotate
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+	dh_installinit  --no_start -- defaults 23
+	dh_installcron
+	dh_installman
+	dh_installinfo
+#	dh_undocumented
+	dh_installchangelogs 
+	dh_link
+	dh_strip
+	dh_compress 
+	dh_fixperms
+#	dh_makeshlibs
+	dh_installdeb
+#	dh_perl
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+# Build architecture-independent packages using the common target
+binary-indep: build install
+# (Uncomment this next line if you have such packages.)
+#        $(MAKE) -f debian/rules DH_OPTIONS=-i binary-common
+# We have nothing to do by default.
+
+
+# Build architecture-dependent packages using the common target
+binary-arch: build install
+	$(MAKE) -f debian/rules DH_OPTIONS=-a binary-common
+
+# Any other binary targets build just one binary package at a time.
+binary-%: build install
+	$(MAKE) -f debian/rules binary-common DH_OPTIONS=-p$*
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure
+

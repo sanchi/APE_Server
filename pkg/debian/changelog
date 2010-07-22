@@ -1,0 +1,11 @@
+aped (1.0-54-g2a021e2) karmic; urgency=low
+
+  * updated package from 1.0+ git
+
+ -- Stefan Sayer <stefan@waspi>  Thu, 22 Jul 2010 17:17:44 +0200
+
+aped (0.9) unstable; urgency=low
+
+  * aped 0.9 from ape-project.org
+
+ -- stefan <stefan.sayer@gmail.com>  Tue, 26 Aug 2009 15:13:24 +0200

@@ -1,2 +1,9 @@
+how to build
+------------
 run build.sh
 -> sh build.sh
+
+how to create debian/ubuntu package
+-----------------------------------
+ln -s pkg/debian .
+dpkg-buildpackage -rfakeroot -us -uc

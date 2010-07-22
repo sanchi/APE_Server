@@ -1,0 +1,15 @@
+Source: aped
+Section: net
+Priority: optional
+Maintainer: Stefan Sayer <stefan.sayer@gmail.com>
+Build-Depends: gcc, debhelper 
+Standards-Version: 3.5.2
+
+Package: aped
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: APE server (Ajax Push Engine)
+ APE is an open source technology allowing to exchange data between 
+ thousands of users through a web browser, without reloading.
+
+

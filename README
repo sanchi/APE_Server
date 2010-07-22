@@ -5,5 +5,9 @@ run build.sh
 
 how to create debian/ubuntu package
 -----------------------------------
-ln -s pkg/debian .
-dpkg-buildpackage -rfakeroot -us -uc
+$ ln -s pkg/debian .
+
+optional: add versionto changelog, e.g. 
+$ dch -v 1.1-xyz 
+
+$ dpkg-buildpackage -rfakeroot -us -uc

@@ -70,6 +70,16 @@ install: build
 	install bin/*.conf $(CURDIR)/debian/aped/etc/ape
 	install modules/conf/*.conf $(CURDIR)/debian/aped/etc/ape/modules
 	install -d scripts $(CURDIR)/debian/aped/usr/lib/ape/scripts
+	install scripts/* $(CURDIR)/debian/aped/usr/lib/ape/scripts
+	install -d scripts/commands/ $(CURDIR)/debian/aped/usr/lib/ape/scripts/commands/
+	install scripts/commands/* $(CURDIR)/debian/aped/usr/lib/ape/scripts/commands/
+	install -d scripts/examples/ $(CURDIR)/debian/aped/usr/lib/ape/scripts/examples/
+	install scripts/examples/* $(CURDIR)/debian/aped/usr/lib/ape/scripts/examples/
+	install -d scripts/framework/ $(CURDIR)/debian/aped/usr/lib/ape/scripts/framework/
+	install scripts/framework/* $(CURDIR)/debian/aped/usr/lib/ape/scripts/framework/
+	install -d scripts/utils/ $(CURDIR)/debian/aped/usr/lib/ape/scripts/utils/
+	install scripts/utils/* $(CURDIR)/debian/aped/usr/lib/ape/scripts/utils/
+
 
 # This single target is used to build all the packages, all at once, or
 # one at a time. So keep in mind: any options passed to commands here will
